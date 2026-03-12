@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPU Scheduling Algorithm Simulator</title>
+  <meta name="description" content="Test and learn CPU scheduling algorithms like SRTF, FCFS, SJF, RR with this interactive simulator.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="app-container">
+
+    <!-- ── Title ─────────────────────────────────── -->
+    <h1 class="main-title" id="main-title"></h1>
+
+    <!-- ── Top Grid: Algorithm + Processes ────────── -->
+    <div class="top-grid">
+
+      <!-- Left: Algorithm Selector -->
+      <div class="card algo-card">
+        <label>Select a scheduling algorithm to simulate.</label>
+        <select id="algo-select">
+          <option value="" disabled selected>Select an algorithm</option>
+          <option value="FCFS">First Come First Serve</option>
+          <option value="RR">Round Robin</option>
+          <option value="SJF">Shortest Job First</option>
+          <option value="SRTF">Shortest Remaining Time First</option>
+        </select>
+
+        <!-- Algorithm description (blurred) -->
+        <div class="algo-description blurred" id="algo-description" style="display:none">
+          <p class="desc-text" id="algo-desc-text"></p>
+          <p class="reveal-hint" id="reveal-hint">Click to reveal</p>
+        </div>
+
+        <!-- Time quantum (visible only for RR) -->
+        <div class="quantum-row" id="quantum-row">
+          <label>Enter Time Quantum</label>
+          <input type="number" id="quantum-input" min="1" max="100" value="2" placeholder="Time Quantum">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" id="btn-submit" style="flex:1">Submit</button>
+          <button class="btn btn-outline btn-icon" id="btn-share" title="Share configuration">🔗</button>
+        </div>
+      </div>
+
+      <!-- Right: Processes Card -->
+      <div class="card processes-card">
+        <div class="processes-header">
+          <div>
+            <div class="card-title">Processes</div>
+            <div class="card-subtitle">Add a process to simulate it</div>
+          </div>
+          <button class="btn btn-outline btn-icon" id="btn-random" title="Generate random processes">🎲</button>
+        </div>
+
+        <div class="process-list" id="process-list">
+          <!-- Will be populated by JS -->
+        </div>
+
+        <div class="processes-actions">
+          <button class="btn btn-outline" id="btn-add-process">Add Process</button>
+          <button class="btn" id="btn-clear">Clear all processes</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Results Section ───────────────────────── -->
+    <div class="results-section" id="results-section" style="display:none">
+
+      <!-- Gantt Chart -->
+      <div class="gantt-wrapper">
+        <h2>Gantt Chart</h2>
+        <div class="gantt-area">
+          <div class="gantt-chart" id="gantt-chart"></div>
+          <div class="gantt-time-axis" id="gantt-time-axis"></div>
+        </div>
+      </div>
+
+      <!-- Summary: Table + Stats -->
+      <div class="summary-section">
+        <div class="results-table-wrap pop-in">
+          <table class="results-table" id="results-table">
+            <thead>
+              <tr>
+                <th>Process ID</th>
+                <th>Arrival Time</th>
+                <th>Burst Time</th>
+                <th>Waiting Time</th>
+                <th>Turnaround Time</th>
+              </tr>
+            </thead>
+            <tbody id="results-tbody"></tbody>
+            <tfoot id="results-tfoot"></tfoot>
+          </table>
+          <p class="table-caption">A summary of your processes including waiting and turnaround times.</p>
+        </div>
+
+        <div class="summary-stats" id="summary-stats"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Footer ────────────────────────────────── -->
+    <footer class="footer">
+      Built by <strong>TRAILBLAZERS</strong>
+      <span style="margin-left:4px"></span>
+      <br>
+      <a href="https://github.com/Yuga170308/OSMicroProject" target="_blank">Star this on Github⭐</a>
+    </footer>
+
+  </div>
+
+  <!-- Modal for Add Process -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-title">Add Process</h3>
+      <div class="form-group">
+        <label for="input-arrival">Arrival Time</label>
+        <input type="number" id="input-arrival" min="0" max="100" value="0" placeholder="Default arrival time : 0">
+      </div>
+      <div class="form-group">
+        <label for="input-burst">Burst Time</label>
+        <input type="number" id="input-burst" min="1" max="100" value="1" placeholder="Default burst time : 1">
+      </div>
+      <div class="form-group">
+        <label>Choose a color for the process</label>
+        <div class="color-picker-row">
+          <input type="color" id="input-color" value="#ef4444">
+          <div class="color-preview" id="color-preview" style="background:#ef4444"></div>
+        </div>
+      </div>
+      <button class="btn" id="btn-modal-submit" style="width:100%">Submit</button>
+    </div>
+  </div>
+
+  <script src="algorithms.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
